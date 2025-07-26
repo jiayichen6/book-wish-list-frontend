@@ -4,6 +4,7 @@ const booksData = {
   toReadBooks: [],
   finishedBooks: [],
   currentBooks: [],
+  curentPage: "all",
 };
 
 export { booksData };

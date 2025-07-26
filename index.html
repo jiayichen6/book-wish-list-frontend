@@ -13,7 +13,8 @@
     <h1 class="text-4xl m-10 mb-5 lg:px-40">My Books Wish List</h1>
     <div class="divider px-10 lg:px-40"></div>
 
-    <div class="px-10 lg:px-40">
+    <!-- search -->
+    <div x-data="searchControl" class="px-10 lg:px-40">
       <label class="input w-full">
         <svg
           class="h-[1em] opacity-50"
@@ -31,10 +32,17 @@
             <path d="m21 21-4.3-4.3"></path>
           </g>
         </svg>
-        <input type="search" class="grow" placeholder="Search" />
+        <input
+          x-model="searchInput"
+          @input="searchBooks"
+          type="search"
+          class="grow"
+          placeholder="Search Book By title or Author"
+        />
       </label>
     </div>
 
+    <!-- book list -->
     <section
       x-data="wishListControl"
       x-init="getAllBooks"
