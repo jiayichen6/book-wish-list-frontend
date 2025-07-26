@@ -8,6 +8,7 @@ Users can browse a list of books, switch between reading states, and mark favori
 ## Features
 
 - View all available books with cover, author, description, and subjects
+- **Search books by keyword (title, author)**
 - Tab switching between:
   - **All Books**
   - **To Read**
