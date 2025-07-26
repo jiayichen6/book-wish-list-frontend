@@ -4,7 +4,9 @@ const booksData = {
   toReadBooks: [],
   finishedBooks: [],
   currentBooks: [],
-  curentPage: "all",
+  currentPage: "all",
+  bookControl: {},
+  selectedBook: null,
 };
 
 export { booksData };

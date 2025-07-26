@@ -13,6 +13,7 @@ const wishListControl = () => {
 
         const newData = this.nomalizeBooks(rawData);
         console.log(newData);
+        console.log(this.$store.booksData.control);
         this.$store.booksData.allBooks = this.sortBooks(newData);
         this.$store.booksData.currentBooks = this.$store.booksData.allBooks;
       } catch (err) {
@@ -40,17 +41,17 @@ const wishListControl = () => {
 
     goAll() {
       this.$store.booksData.currentBooks = this.$store.booksData.allBooks;
-      this.$store.booksData.curentPage = "all";
+      this.$store.booksData.currentPage = "all";
     },
 
     goToRead() {
       this.$store.booksData.currentBooks = this.$store.booksData.toReadBooks;
-      this.$store.booksData.curentPage = "toRead";
+      this.$store.booksData.currentPage = "toRead";
     },
 
     gofinished() {
       this.$store.booksData.currentBooks = this.$store.booksData.finishedBooks;
-      this.$store.booksData.curentPage = "finished";
+      this.$store.booksData.currentPage = "finished";
     },
 
     setToRead(book) {
@@ -124,7 +125,7 @@ const searchControl = () => {
         finished: this.$store.booksData.finishedBooks,
       };
 
-      const source = sourceMap[(this.$store, booksData.curentPage)];
+      const source = sourceMap[(this.$store, booksData.currentPage)];
 
       if (keyword === "") {
         this.searchInput = "";

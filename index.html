@@ -10,103 +10,454 @@
   </head>
 
   <body>
-    <h1 class="text-4xl m-10 mb-5 lg:px-40">My Books Wish List</h1>
-    <div class="divider px-10 lg:px-40"></div>
+    <div x-data>
+      <h1 class="text-4xl m-10 mb-5 lg:px-40">My Books Wish List</h1>
+      <div class="divider px-10 lg:px-40"></div>
 
-    <!-- search -->
-    <div x-data="searchControl" class="px-10 lg:px-40">
-      <label class="input w-full">
-        <svg
-          class="h-[1em] opacity-50"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <g
-            stroke-linejoin="round"
-            stroke-linecap="round"
-            stroke-width="2.5"
-            fill="none"
-            stroke="currentColor"
+      <!-- search -->
+      <div x-data="searchControl" class="px-10 lg:px-40">
+        <label class="input w-full">
+          <svg
+            class="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
           >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </g>
-        </svg>
-        <input
-          x-model="searchInput"
-          @input="searchBooks"
-          type="search"
-          class="grow"
-          placeholder="Search Book By title or Author"
-        />
-      </label>
-    </div>
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input
+            x-model="searchInput"
+            @input="searchBooks"
+            type="search"
+            class="grow"
+            placeholder="Search Book By title or Author"
+          />
+        </label>
+      </div>
 
-    <!-- book list -->
-    <section
-      x-data="wishListControl"
-      x-init="getAllBooks"
-      class="tabs tabs-lift p-10 lg:px-40"
-    >
-      <!-- 1 -->
-      <label @click="goAll" class="tab">
-        <input type="radio" name="my_tabs_4" checked="checked" />
-        <svg
-          class="mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          viewBox="0 0 256 256"
-        >
-          <path
-            d="M232,44H160a43.86,43.86,0,0,0-32,13.85A43.86,43.86,0,0,0,96,44H24A12,12,0,0,0,12,56V200a12,12,0,0,0,12,12H96a20,20,0,0,1,20,20,12,12,0,0,0,24,0,20,20,0,0,1,20-20h72a12,12,0,0,0,12-12V56A12,12,0,0,0,232,44ZM96,188H36V68H96a20,20,0,0,1,20,20V192.81A43.79,43.79,0,0,0,96,188Zm124,0H160a43.71,43.71,0,0,0-20,4.83V88a20,20,0,0,1,20-20h60ZM164,96h32a12,12,0,0,1,0,24H164a12,12,0,0,1,0-24Zm44,52a12,12,0,0,1-12,12H164a12,12,0,0,1,0-24h32A12,12,0,0,1,208,148Z"
-          ></path>
-        </svg>
-
-        All Books
-      </label>
-      <div class="tab-content bg-base-100 border-base-300 p-6">
-        <ul class="list bg-base-100 rounded-box shadow-md">
-          <template
-            x-for="book in $store.booksData.currentBooks"
-            :key="book.key"
+      <!-- book list -->
+      <section
+        x-data="wishListControl"
+        x-init="
+        getAllBooks;
+        $store.booksData.bookControl = $data"
+        class="tabs tabs-lift p-10 lg:px-40"
+      >
+        <!-- 1 -->
+        <label @click="goAll" class="tab">
+          <input type="radio" name="my_tabs_4" checked="checked" />
+          <svg
+            class="mr-1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 256 256"
           >
-            <li>
-              <div class="px-4 flex gap-3 mt-8">
-                <template x-for="subject in book.subject">
+            <path
+              d="M232,44H160a43.86,43.86,0,0,0-32,13.85A43.86,43.86,0,0,0,96,44H24A12,12,0,0,0,12,56V200a12,12,0,0,0,12,12H96a20,20,0,0,1,20,20,12,12,0,0,0,24,0,20,20,0,0,1,20-20h72a12,12,0,0,0,12-12V56A12,12,0,0,0,232,44ZM96,188H36V68H96a20,20,0,0,1,20,20V192.81A43.79,43.79,0,0,0,96,188Zm124,0H160a43.71,43.71,0,0,0-20,4.83V88a20,20,0,0,1,20-20h60ZM164,96h32a12,12,0,0,1,0,24H164a12,12,0,0,1,0-24Zm44,52a12,12,0,0,1-12,12H164a12,12,0,0,1,0-24h32A12,12,0,0,1,208,148Z"
+            ></path>
+          </svg>
+
+          All Books
+        </label>
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+          <ul class="list bg-base-100 rounded-box shadow-md">
+            <template
+              x-for="book in $store.booksData.currentBooks"
+              :key="book.key"
+            >
+              <li @click="$store.booksData.selectedBook = book">
+                <div class="px-4 flex gap-3 mt-8">
+                  <template x-for="subject in book.subject">
+                    <span
+                      x-text="`#${subject}`"
+                      class="rounded-sm bg-[#ddd] p-1 text-[7px] opacity-60 tracking-wide cursor-pointer"
+                    ></span>
+                  </template>
+                </div>
+                <div class="list-row items-center pt-3 cursor-pointer">
+                  <div>
+                    <img
+                      class="size-20 rounded-box row-span-4"
+                      :src="`https://covers.openlibrary.org/b/id/${book.coverId}-M.jpg`"
+                    />
+                  </div>
+                  <div>
+                    <div x-text="book.title" class="text-sm"></div>
+                    <template x-for="author in book.author">
+                      <p
+                        x-text="author"
+                        class="text-xs uppercase font-semibold opacity-60"
+                      ></p>
+                    </template>
+                    <p
+                      x-text="book.description"
+                      class="opacity-60 list-col-wrap text-[9px] line-clamp-2 mt-2"
+                    ></p>
+                  </div>
+                  <!-- btn1 -->
+                  <button
+                    @click.stop="setToRead(book)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <template x-if="book.readStatus !== 'toRead'">
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M184,28H72A20,20,0,0,0,52,48V224a12,12,0,0,0,18.36,10.18l57.63-36,57.65,36A12,12,0,0,0,204,224V48A20,20,0,0,0,184,28Zm-4,174.35-45.65-28.53a12,12,0,0,0-12.72,0L76,202.35V52H180Z"
+                        ></path>
+                      </svg>
+                    </template>
+
+                    <template x-if="book.readStatus === 'toRead'">
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"
+                        ></path>
+                      </svg>
+                    </template>
+                  </button>
+                  <!-- btn2 -->
+                  <button
+                    @click.stop="setFinished(book)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <template x-if="book.readStatus !== 'finished'">
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"
+                        ></path>
+                      </svg>
+                    </template>
+
+                    <template x-if="book.readStatus === 'finished'">
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"
+                        ></path>
+                      </svg>
+                    </template>
+                  </button>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
+
+        <!-- 2 -->
+        <label @click="goToRead" class="tab">
+          <input type="radio" name="my_tabs_4" />
+          <svg
+            class="mr-1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"
+            ></path>
+          </svg>
+          To Read
+        </label>
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+          <ul class="list bg-base-100 rounded-box shadow-md">
+            <template
+              x-for="book in $store.booksData.currentBooks"
+              :key="book.key"
+            >
+              <li @click="$store.booksData.selectedBook = book">
+                <div class="px-4 flex gap-3 mt-8">
+                  <template x-for="subject in book.subject">
+                    <span
+                      x-text="`#${subject}`"
+                      class="rounded-sm bg-[#ddd] p-1 text-[7px] opacity-60 tracking-wide cursor-pointer"
+                    ></span>
+                  </template>
+                </div>
+                <div class="list-row items-center pt-3 cursor-pointer">
+                  <div>
+                    <img
+                      class="size-20 rounded-box row-span-4"
+                      :src="`https://covers.openlibrary.org/b/id/${book.coverId}-M.jpg`"
+                    />
+                  </div>
+                  <div>
+                    <div x-text="book.title" class="text-sm"></div>
+                    <template x-for="author in book.author">
+                      <p
+                        x-text="author"
+                        class="text-xs uppercase font-semibold opacity-60"
+                      ></p>
+                    </template>
+                    <p
+                      x-text="book.description"
+                      class="opacity-60 list-col-wrap text-[9px] line-clamp-2 mt-2"
+                    ></p>
+                  </div>
+                  <!-- btn1 -->
+                  <button
+                    @click="setToRead(book)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <svg
+                      class="size-[1.3em]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="#000000"
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- btn2 -->
+                  <button
+                    @click="setFinished(book)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <svg
+                      class="size-[1.3em]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="#000000"
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
+
+        <!-- 3 -->
+        <label @click="gofinished" class="tab">
+          <input type="radio" name="my_tabs_4" />
+          <svg
+            class="mr-1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"
+            ></path>
+          </svg>
+          finished
+        </label>
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+          <ul class="list bg-base-100 rounded-box shadow-md">
+            <template
+              x-for="book in $store.booksData.currentBooks"
+              :key="book.key"
+            >
+              <li @click="$store.booksData.selectedBook = book">
+                <div class="px-4 flex gap-3 mt-8">
+                  <template x-for="subject in book.subject">
+                    <span
+                      x-text="`#${subject}`"
+                      class="rounded-sm bg-[#ddd] p-1 text-[7px] opacity-60 tracking-wide cursor-pointer"
+                    ></span>
+                  </template>
+                </div>
+                <div class="list-row items-center pt-3 cursor-pointer">
+                  <div>
+                    <img
+                      class="size-20 rounded-box row-span-4"
+                      :src="`https://covers.openlibrary.org/b/id/${book.coverId}-M.jpg`"
+                    />
+                  </div>
+                  <div>
+                    <div x-text="book.title" class="text-sm"></div>
+                    <template x-for="author in book.author">
+                      <p
+                        x-text="author"
+                        class="text-xs uppercase font-semibold opacity-60"
+                      ></p>
+                    </template>
+                    <p
+                      x-text="book.description"
+                      class="opacity-60 list-col-wrap text-[9px] line-clamp-2 mt-2"
+                    ></p>
+                  </div>
+                  <!-- btn1 -->
+                  <button
+                    @click="setToRead(book)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <svg
+                      class="size-[1.3em]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="#000000"
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        d="M184,28H72A20,20,0,0,0,52,48V224a12,12,0,0,0,18.36,10.18l57.63-36,57.65,36A12,12,0,0,0,204,224V48A20,20,0,0,0,184,28Zm-4,174.35-45.65-28.53a12,12,0,0,0-12.72,0L76,202.35V52H180Z"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- btn2 -->
+                  <button
+                    @click="setFinished(book)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <svg
+                      class="size-[1.3em]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="#000000"
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- btn3 -->
+                  <button
+                    @click="toggleFavorite(book)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <template x-if="book.isFavorite == false">
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M225.84,54.13A62.07,62.07,0,0,0,138.32,54L128,63.58,117.68,54a62,62,0,0,0-87.58,87.8l89.35,90.65a12,12,0,0,0,17.1,0l89.29-90.59a62,62,0,0,0,0-87.7Zm-17,70.79L128,206.9,47.13,124.85a38,38,0,0,1,53.74-53.74c.1.1.2.2.31.29l18.64,17.36a12,12,0,0,0,16.36,0L154.82,71.4c.11-.09.21-.19.31-.29a38,38,0,1,1,53.68,53.81Z"
+                        ></path>
+                      </svg>
+                    </template>
+
+                    <template x-if="book.isFavorite == true">
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M240,98a57.63,57.63,0,0,1-17,41L133.7,229.62a8,8,0,0,1-11.4,0L33,139a58,58,0,0,1,82-82.1L128,69.05l13.09-12.19A58,58,0,0,1,240,98Z"
+                        ></path>
+                      </svg>
+                    </template>
+                  </button>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </section>
+
+      <!-- book card -->
+      <template x-if="$store.booksData.selectedBook">
+        <div
+          @click="$store.booksData.selectedBook = null"
+          class="fixed top-0 z-10 size-full flex justify-center items-center bg-black/50 cursor-pointer"
+        >
+          <div
+            @click.stop
+            class="w-[70%] xl:w-[50%] card card-side bg-base-100 shadow-sm"
+          >
+            <figure class="w-[1000px]">
+              <img
+                class="object-cover"
+                :src="`https://covers.openlibrary.org/b/id/${$store.booksData.selectedBook.coverId}-M.jpg`"
+                alt="Movie"
+              />
+            </figure>
+            <div class="card-body">
+              <div class="flex gap-3">
+                <template
+                  x-for="subject in $store.booksData.selectedBook.subject"
+                >
                   <span
                     x-text="`#${subject}`"
-                    class="rounded-sm bg-[#ddd] p-1 text-[7px] opacity-60 tracking-wide cursor-pointer"
+                    class="rounded-sm bg-white p-1 text-[10px] opacity-60 tracking-wide cursor-pointer"
                   ></span>
                 </template>
               </div>
-              <div class="list-row items-center pt-3 cursor-pointer">
-                <div>
-                  <img
-                    class="size-20 rounded-box row-span-4"
-                    :src="`https://covers.openlibrary.org/b/id/${book.coverId}-M.jpg`"
-                  />
-                </div>
-                <div>
-                  <div x-text="book.title" class="text-sm"></div>
-                  <template x-for="author in book.author">
-                    <div
-                      x-text="author"
-                      class="text-xs uppercase font-semibold opacity-60"
-                    ></div>
-                  </template>
+              <h2
+                x-text="$store.booksData.selectedBook.title"
+                class="card-title text-xl"
+              ></h2>
+              <div>
+                <template
+                  x-for="author in $store.booksData.selectedBook.author"
+                >
                   <p
-                    x-text="book.description"
-                    class="opacity-60 list-col-wrap text-[9px] line-clamp-2 mt-2"
+                    x-text="author"
+                    class="text-xs uppercase font-semibold opacity-60"
                   ></p>
-                </div>
+                </template>
+              </div>
+              <div class="divider m-0"></div>
+              <p
+                x-text="$store.booksData.selectedBook.description"
+                class="opacity-60 text-xs mt-2"
+              ></p>
+
+              <!-- btn -->
+              <div class="flex gap-2 justify-end">
                 <!-- btn1 -->
                 <button
-                  @click="setToRead(book)"
+                  @click="$store.booksData.bookControl.setToRead($store.booksData.selectedBook)"
                   class="btn btn-square btn-ghost"
                 >
-                  <template x-if="book.readStatus !== 'toRead'">
+                  <template
+                    x-if="$store.booksData.selectedBook.readStatus !== 'toRead'"
+                  >
                     <svg
                       class="size-[1.3em]"
                       xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +472,9 @@
                     </svg>
                   </template>
 
-                  <template x-if="book.readStatus === 'toRead'">
+                  <template
+                    x-if="$store.booksData.selectedBook.readStatus === 'toRead'"
+                  >
                     <svg
                       class="size-[1.3em]"
                       xmlns="http://www.w3.org/2000/svg"
@@ -138,10 +491,12 @@
                 </button>
                 <!-- btn2 -->
                 <button
-                  @click="setFinished(book)"
+                  @click="$store.booksData.bookControl.setFinished($store.booksData.selectedBook)"
                   class="btn btn-square btn-ghost"
                 >
-                  <template x-if="book.readStatus !== 'finished'">
+                  <template
+                    x-if="$store.booksData.selectedBook.readStatus !== 'finished'"
+                  >
                     <svg
                       class="size-[1.3em]"
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +511,9 @@
                     </svg>
                   </template>
 
-                  <template x-if="book.readStatus === 'finished'">
+                  <template
+                    x-if="$store.booksData.selectedBook.readStatus === 'finished'"
+                  >
                     <svg
                       class="size-[1.3em]"
                       xmlns="http://www.w3.org/2000/svg"
@@ -169,232 +526,72 @@
                     </svg>
                   </template>
                 </button>
-              </div>
-            </li>
-          </template>
-        </ul>
-      </div>
-
-      <!-- 2 -->
-      <label @click="goToRead" class="tab">
-        <input type="radio" name="my_tabs_4" />
-        <svg
-          class="mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          viewBox="0 0 256 256"
-        >
-          <path
-            d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"
-          ></path>
-        </svg>
-        To Read
-      </label>
-      <div class="tab-content bg-base-100 border-base-300 p-6">
-        <ul class="list bg-base-100 rounded-box shadow-md">
-          <template
-            x-for="book in $store.booksData.currentBooks"
-            :key="book.key"
-          >
-            <li>
-              <div class="px-4 flex gap-3 mt-8">
-                <template x-for="subject in book.subject">
-                  <span
-                    x-text="`#${subject}`"
-                    class="rounded-sm bg-[#ddd] p-1 text-[7px] opacity-60 tracking-wide cursor-pointer"
-                  ></span>
-                </template>
-              </div>
-              <div class="list-row items-center pt-3 cursor-pointer">
-                <div>
-                  <img
-                    class="size-20 rounded-box row-span-4"
-                    :src="`https://covers.openlibrary.org/b/id/${book.coverId}-M.jpg`"
-                  />
-                </div>
-                <div>
-                  <div x-text="book.title" class="text-sm"></div>
-                  <template x-for="author in book.author">
-                    <div
-                      x-text="author"
-                      class="text-xs uppercase font-semibold opacity-60"
-                    ></div>
-                  </template>
-                  <p
-                    x-text="book.description"
-                    class="opacity-60 list-col-wrap text-[9px] line-clamp-2 mt-2"
-                  ></p>
-                </div>
-                <!-- btn1 -->
-                <button
-                  @click="setToRead(book)"
-                  class="btn btn-square btn-ghost"
-                >
-                  <svg
-                    class="size-[1.3em]"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="#000000"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"
-                    ></path>
-                  </svg>
-                </button>
-                <!-- btn2 -->
-                <button
-                  @click="setFinished(book)"
-                  class="btn btn-square btn-ghost"
-                >
-                  <svg
-                    class="size-[1.3em]"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="#000000"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </li>
-          </template>
-        </ul>
-      </div>
-
-      <!-- 3 -->
-      <label @click="gofinished" class="tab">
-        <input type="radio" name="my_tabs_4" />
-        <svg
-          class="mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          viewBox="0 0 256 256"
-        >
-          <path
-            d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"
-          ></path>
-        </svg>
-        finished
-      </label>
-      <div class="tab-content bg-base-100 border-base-300 p-6">
-        <ul class="list bg-base-100 rounded-box shadow-md">
-          <template
-            x-for="book in $store.booksData.currentBooks"
-            :key="book.key"
-          >
-            <li>
-              <div class="px-4 flex gap-3 mt-8">
-                <template x-for="subject in book.subject">
-                  <span
-                    x-text="`#${subject}`"
-                    class="rounded-sm bg-[#ddd] p-1 text-[7px] opacity-60 tracking-wide cursor-pointer"
-                  ></span>
-                </template>
-              </div>
-              <div class="list-row items-center pt-3 cursor-pointer">
-                <div>
-                  <img
-                    class="size-20 rounded-box row-span-4"
-                    :src="`https://covers.openlibrary.org/b/id/${book.coverId}-M.jpg`"
-                  />
-                </div>
-                <div>
-                  <div x-text="book.title" class="text-sm"></div>
-                  <template x-for="author in book.author">
-                    <div
-                      x-text="author"
-                      class="text-xs uppercase font-semibold opacity-60"
-                    ></div>
-                  </template>
-                  <p
-                    x-text="book.description"
-                    class="opacity-60 list-col-wrap text-[9px] line-clamp-2 mt-2"
-                  ></p>
-                </div>
-                <!-- btn1 -->
-                <button
-                  @click="setToRead(book)"
-                  class="btn btn-square btn-ghost"
-                >
-                  <svg
-                    class="size-[1.3em]"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="#000000"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M184,28H72A20,20,0,0,0,52,48V224a12,12,0,0,0,18.36,10.18l57.63-36,57.65,36A12,12,0,0,0,204,224V48A20,20,0,0,0,184,28Zm-4,174.35-45.65-28.53a12,12,0,0,0-12.72,0L76,202.35V52H180Z"
-                    ></path>
-                  </svg>
-                </button>
-                <!-- btn2 -->
-                <button
-                  @click="setFinished(book)"
-                  class="btn btn-square btn-ghost"
-                >
-                  <svg
-                    class="size-[1.3em]"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="#000000"
-                    viewBox="0 0 256 256"
-                  >
-                    <path
-                      d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"
-                    ></path>
-                  </svg>
-                </button>
                 <!-- btn3 -->
-                <button
-                  @click="toggleFavorite(book)"
-                  class="btn btn-square btn-ghost"
+                <template
+                  x-if="$store.booksData.selectedBook.readStatus === 'finished'"
                 >
-                  <template x-if="book.isFavorite == false">
-                    <svg
-                      class="size-[1.3em]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="#000000"
-                      viewBox="0 0 256 256"
+                  <button
+                    @click="$store.booksData.bookControl.toggleFavorite($store.booksData.selectedBook)"
+                    class="btn btn-square btn-ghost"
+                  >
+                    <template
+                      x-if="$store.booksData.selectedBook.isFavorite == false"
                     >
-                      <path
-                        d="M225.84,54.13A62.07,62.07,0,0,0,138.32,54L128,63.58,117.68,54a62,62,0,0,0-87.58,87.8l89.35,90.65a12,12,0,0,0,17.1,0l89.29-90.59a62,62,0,0,0,0-87.7Zm-17,70.79L128,206.9,47.13,124.85a38,38,0,0,1,53.74-53.74c.1.1.2.2.31.29l18.64,17.36a12,12,0,0,0,16.36,0L154.82,71.4c.11-.09.21-.19.31-.29a38,38,0,1,1,53.68,53.81Z"
-                      ></path>
-                    </svg>
-                  </template>
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M225.84,54.13A62.07,62.07,0,0,0,138.32,54L128,63.58,117.68,54a62,62,0,0,0-87.58,87.8l89.35,90.65a12,12,0,0,0,17.1,0l89.29-90.59a62,62,0,0,0,0-87.7Zm-17,70.79L128,206.9,47.13,124.85a38,38,0,0,1,53.74-53.74c.1.1.2.2.31.29l18.64,17.36a12,12,0,0,0,16.36,0L154.82,71.4c.11-.09.21-.19.31-.29a38,38,0,1,1,53.68,53.81Z"
+                        ></path>
+                      </svg>
+                    </template>
 
-                  <template x-if="book.isFavorite == true">
-                    <svg
-                      class="size-[1.3em]"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="#000000"
-                      viewBox="0 0 256 256"
+                    <template
+                      x-if="$store.booksData.selectedBook.isFavorite == true"
                     >
-                      <path
-                        d="M240,98a57.63,57.63,0,0,1-17,41L133.7,229.62a8,8,0,0,1-11.4,0L33,139a58,58,0,0,1,82-82.1L128,69.05l13.09-12.19A58,58,0,0,1,240,98Z"
-                      ></path>
-                    </svg>
-                  </template>
-                </button>
+                      <svg
+                        class="size-[1.3em]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#000000"
+                        viewBox="0 0 256 256"
+                      >
+                        <path
+                          d="M240,98a57.63,57.63,0,0,1-17,41L133.7,229.62a8,8,0,0,1-11.4,0L33,139a58,58,0,0,1,82-82.1L128,69.05l13.09-12.19A58,58,0,0,1,240,98Z"
+                        ></path>
+                      </svg>
+                    </template>
+                  </button>
+                </template>
               </div>
-            </li>
-          </template>
-        </ul>
-      </div>
-    </section>
+              <!-- close btn -->
+              <button
+                @click="$store.booksData.selectedBook = null"
+                class="absolute -right-8 top-1 cursor-pointer"
+              >
+                <svg
+                  class="size-[1.3em]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="#fff"
+                  viewBox="0 0 256 256"
+                >
+                  <path
+                    d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
   </body>
 </html>
