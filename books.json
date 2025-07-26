@@ -1,5 +1,5 @@
 {
-  "allbooksData":{
+  "allbooksData": {
     "booksData": [
       {
         "key": "/subjects/love",
@@ -6450,6 +6450,6 @@
       }
     ]
   },
-   "toReadBooksData": [],
-  "readedBooksData": []
+  "toReadBooksData": [],
+  "finishedBooksData": []
 }

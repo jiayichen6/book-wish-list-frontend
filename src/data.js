@@ -1,9 +1,9 @@
 const booksData = {
-  rawBooks:[],
+  rawBooks: [],
   allBooks: [],
   toReadBooks: [],
-  readedBooks: [],
-  currentBooks: []
+  finishedBooks: [],
+  currentBooks: [],
 };
 
 export { booksData };
