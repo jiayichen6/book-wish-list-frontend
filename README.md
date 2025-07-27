@@ -40,3 +40,8 @@ Users can browse a list of books, switch between reading states, and mark favori
 ## Development Tools
 
 - Vite for development server
+
+> 📌 Note:
+> This project focuses on practicing JavaScript logic and data control using Alpine.js.
+> For simplicity and better logic clarity, the HTML content for the book lists was duplicated instead of dynamically rendered through a single template.  
+> The goal was not to optimize HTML structure but to experiment with event binding, state control, and dynamic DOM updates.

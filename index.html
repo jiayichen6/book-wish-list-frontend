@@ -45,7 +45,7 @@
 
       <!-- book list -->
       <section
-        x-data="wishListControl"
+        x-data="bookListControl"
         x-init="
         getAllBooks;
         $store.booksData.bookControl = $data"
@@ -179,7 +179,7 @@
         </div>
 
         <!-- 2 -->
-        <label @click="goToRead" class="tab">
+        <label @click="goToRead;getAllBooks" class="tab">
           <input type="radio" name="my_tabs_4" />
           <svg
             class="mr-1"
@@ -273,7 +273,7 @@
         </div>
 
         <!-- 3 -->
-        <label @click="gofinished" class="tab">
+        <label @click="gofinished;getAllBooks" class="tab">
           <input type="radio" name="my_tabs_4" />
           <svg
             class="mr-1"
@@ -360,7 +360,7 @@
                   </button>
                   <!-- btn3 -->
                   <button
-                    @click="toggleFavorite(book)"
+                    @click.stop="toggleFavorite(book)"
                     class="btn btn-square btn-ghost"
                   >
                     <template x-if="book.isFavorite == false">

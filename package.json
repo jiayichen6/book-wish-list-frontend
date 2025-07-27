@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "api": "json-server --watch books.json --port 3002",
+    "api": "json-server --watch ./src/data/books.json --port 3002",
     "all": "concurrently \"npm run dev\" \"npm run api\""
   },
   "keywords": [],

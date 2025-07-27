@@ -1,10 +1,12 @@
 import Alpine from "alpinejs";
-import { wishListControl, searchControl } from "./app";
-import { booksData } from "./data";
+import { bookListControl } from "./controls/bookListControl";
+import { searchControl } from "./controls/searchControl";
+import { booksStore } from "./stores/booksStore";
+import { uiStore } from "./stores/uiStore";
 
-Alpine.data("wishListControl", wishListControl);
+Alpine.data("bookListControl", bookListControl);
 Alpine.data("searchControl", searchControl);
-Alpine.store("booksData", booksData);
+Alpine.store("booksData", { ...booksStore, ...uiStore });
 window.Alpine = Alpine;
 
 Alpine.start();
