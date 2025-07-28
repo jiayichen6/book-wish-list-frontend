@@ -1,4 +1,5 @@
 ![Preview of Books Wish List App](./preview.png)
+_Screenshot of the main interface showing book cards and tab switching._
 
 # Books Wish List
 
@@ -7,17 +8,21 @@ Users can browse a list of books, switch between reading states, and mark favori
 
 ## Features
 
-- View all available books with cover, author, description, and subjects
-- Click on a book to open a detailed view with full description
-- **Search books by keyword (title, author)**
-- Tab switching between:
-  - **All Books**
-  - **To Read**
-  - **Finished**
-- Mark books as **Favorite** (under Finished list)
-- Toggle book status dynamically with responsive UI icons
-- Smooth DOM rendering with Alpine.js
-- Local mock API using JSON Server (add/remove book status dynamically)
+### 🔍 UI Features
+
+- Browse books with cover, author, and subject tags
+- View full description in detail panel
+- Tab switching: All / To Read / Finished
+- Mark books as Favorite
+- Toggle reading status with interactive icons
+- Responsive and smooth DOM rendering (Alpine.js)
+
+### 🧠 Logic & Data Flow
+
+- Search books by title or author
+- Dynamic status update with local mock API (JSON Server)
+- Combined data from two external APIs
+- Manual normalization and key-matching logic for description data
 
 ## Tech Stack
 
@@ -34,17 +39,30 @@ Users can browse a list of books, switch between reading states, and mark favori
 - Run `npm install` to install all packages.
 - Run `npm run all` to launch:
   - Vite development server (default: port `5173`)
-  - JSON Server (default: port `3002`)
-    - `/allBooksData`
-    - `/toReadBooksData`
-    - `/finishedBooksData`
-    - `/favoriteBooksData`
+  - JSON Server (default: port `3002`) - `/allBooksData` - `/toReadBooksData` - `/finishedBooksData` - `/favoriteBooksData`
+    > `npm run all` will launch both Vite and JSON Server concurrently.  
+    > Make sure you have `concurrently` installed (already included in `package.json`).
 
 ## Development Tools
 
 - Vite for development server
 
-> 📌 Note:
-> This project focuses on practicing JavaScript logic and data control using Alpine.js.
-> For simplicity and better logic clarity, the HTML content for the book lists was duplicated instead of dynamically rendered through a single template.  
-> The goal was not to optimize HTML structure but to experiment with event binding, state control, and dynamic DOM updates.
+## API Sources
+
+- This project uses two public APIs:
+  - Book data (title, author, subject, cover): Open Library API (https://openlibrary.org/developers/api)
+  - Book description (text summary): Wikipedia REST API (https://www.mediawiki.org/wiki/API:REST_API)
+
+> Data is normalized and combined manually due to differences in structure.
+> Descriptions are fetched by matching book titles to Wikipedia entries.
+
+## About This Project
+
+This project was built as a practice to deepen understanding of:
+
+- JavaScript logic structuring and modularization
+- State control using Alpine.js
+- API integration and data normalization
+- DOM manipulation and UI synchronization
+
+It is not meant to be production-ready, but focuses on learning key frontend skills.
