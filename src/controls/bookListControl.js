@@ -32,34 +32,49 @@ const bookListControl = () => {
       this.$store.booksData.rawBooks = rawData;
 
       const getKeys = (list) => list.map((b) => b.key);
-      const nomalize = (keys) => this.nomalizeBooks(keys);
+      const allBookskeys = getKeys(rawData.booksData.works);
       const toReadBooksKeys = getKeys(toReadBooksData);
-      const finishedBooksKey = getKeys(finishedBooksData);
-      const favoriteBooksKey = getKeys(favoriteBooksData);
+      const finishedBooksKeys = getKeys(finishedBooksData);
+      const favoriteBooksKeys = getKeys(favoriteBooksData);
 
-      this.$store.booksData.allBooks = this.sortBooks(
-        nomalize(getKeys(rawData.booksData.works))
+      this.$store.booksData.allBooks = this.prepareBooksWithStatus(
+        allBookskeys,
+        toReadBooksKeys,
+        finishedBooksKeys,
+        favoriteBooksKeys
       );
-      this.markToReadBooks(toReadBooksKeys, this.$store.booksData.allBooks);
-      this.markFinishedBooks(finishedBooksKey, this.$store.booksData.allBooks);
-      this.markFavoriteBooks(favoriteBooksKey, this.$store.booksData.allBooks);
 
-      this.$store.booksData.toReadBooks = this.sortBooks(
-        nomalize(toReadBooksKeys)
+      this.$store.booksData.toReadBooks = this.$store.booksData.allBooks.filter(
+        (b) => toReadBooksKeys.includes(b.key)
       );
-      this.markToReadBooks(toReadBooksKeys, this.$store.booksData.toReadBooks);
 
-      this.$store.booksData.finishedBooks = nomalize(finishedBooksKey);
-      this.markFinishedBooks(
-        finishedBooksKey,
-        this.$store.booksData.finishedBooks
-      );
-      this.markFavoriteBooks(
-        favoriteBooksKey,
-        this.$store.booksData.finishedBooks
-      );
+      this.$store.booksData.finishedBooks =
+        this.$store.booksData.allBooks.filter((b) =>
+          finishedBooksKeys.includes(b.key)
+        );
 
       this.$store.booksData.currentBooks = this.$store.booksData.allBooks;
+    },
+
+    prepareBooksWithStatus(
+      allBookskeys,
+      toReadBooksKeys,
+      finishedBooksKeys,
+      favoriteBooksKeys
+    ) {
+      const books = this.sortBooks(this.nomalizeBooks(allBookskeys));
+
+      books.forEach((book) => {
+        if (toReadBooksKeys.includes(book.key)) {
+          book.readStatus = "toRead";
+        } else if (finishedBooksKeys.includes(book.key)) {
+          book.readStatus = "finished";
+        }
+
+        book.isFavorite = favoriteBooksKeys.includes(book.key);
+      });
+
+      return books;
     },
 
     nomalizeBooks(bookKeys) {
@@ -80,41 +95,6 @@ const bookListControl = () => {
           isFavorite: false,
         };
       });
-    },
-
-    markToReadBooks(bookKeys, bookList) {
-      bookList.forEach((b) => {
-        bookKeys.forEach((k) => {
-          if (b.key === k) {
-            b.readStatus = "toRead";
-          }
-        });
-      });
-    },
-
-    markFinishedBooks(bookKeys, bookList) {
-      bookList.forEach((b) => {
-        bookKeys.forEach((k) => {
-          if (b.key === k) {
-            b.readStatus = "finished";
-          }
-        });
-      });
-    },
-
-    markFavoriteBooks(bookKeys, bookList) {
-      bookList.forEach((b) => {
-        bookKeys.forEach((k) => {
-          if (b.key === k) {
-            b.isFavorite = true;
-          }
-        });
-      });
-
-      this.$store.booksData.finishedBooks = this.sortBooks(
-        this.$store.booksData.finishedBooks,
-        { isFinished: true }
-      );
     },
 
     goAll() {
@@ -195,7 +175,6 @@ const bookListControl = () => {
         if (index === -1) {
           bookList.push(book);
           bookList = this.sortBooks(bookList);
-          console.log("2");
           try {
             await bookApiControl.addBook(book.key, listName, rawBooks);
           } catch (err) {
@@ -222,7 +201,6 @@ const bookListControl = () => {
     sortBooks(bookList, { isFinished } = {}) {
       return bookList.sort((a, b) => {
         if (isFinished) {
-          console.log("1");
           return b.isFavorite - a.isFavorite || a.title.localeCompare(b.title);
         } else {
           return a.title.localeCompare(b.title);

@@ -17,15 +17,14 @@ Users can browse a list of books, switch between reading states, and mark favori
 - Mark books as **Favorite** (under Finished list)
 - Toggle book status dynamically with responsive UI icons
 - Smooth DOM rendering with Alpine.js
-- Local mock API using JSON Server
+- Local mock API using JSON Server (add/remove book status dynamically)
 
 ## Tech Stack
 
 - HTML / CSS / JavaScript
 - Tailwind CSS / DaisyUI
 - Phosphor Icons (inline SVG)
-  - Icons are from Phosphor Icons, embedded via inline SVG for easier customization with Tailwind utility classes.  
-    DaisyUI's built-in icons were not used to better match the desired visual style and control.
+  - Icons are from Phosphor Icons, embedded via inline SVG for easier customization with Tailwind utility classes.DaisyUI's built-in icons were not used to better match the desired visual style and control.
 - Alpine.js
 - JSON Server
 - Git & GitHub
@@ -36,6 +35,10 @@ Users can browse a list of books, switch between reading states, and mark favori
 - Run `npm run all` to launch:
   - Vite development server (default: port `5173`)
   - JSON Server (default: port `3002`)
+    - `/allBooksData`
+    - `/toReadBooksData`
+    - `/finishedBooksData`
+    - `/favoriteBooksData`
 
 ## Development Tools
 
