@@ -1,68 +1,80 @@
-![Preview of Books Wish List App](./preview.png)
-_Screenshot of the main interface showing book cards and tab switching._
+![書單管理介面預覽](./preview.png)
+
+# 書單管理小工具
 
 # Books Wish List
 
-A clean and interactive book wishlist web app built with HTML, CSS, JavaScript, and Alpine.js.  
-Users can browse a list of books, switch between reading states, and mark favorites.
+一個使用 HTML、CSS、JavaScript 與 Alpine.js 打造的簡潔互動式書單管理工具。  
+使用者可以瀏覽書籍清單、切換閱讀狀態，並標記收藏書籍。
 
-## Features
+---
 
-### 🔍 UI Features
+## 功能
 
-- Browse books with cover, author, and subject tags
-- View full description in detail panel
-- Tab switching: All / To Read / Finished
-- Mark books as Favorite
-- Toggle reading status with interactive icons
-- Responsive and smooth DOM rendering (Alpine.js)
+- 瀏覽書籍封面、作者、主題標籤
+- 點擊書籍展開完整描述內容
+- 分頁切換：全部書籍 / 想讀清單 / 已讀清單
+- 標記收藏功能（Favorite）
+- 使用 icon 切換閱讀狀態
+- 響應式排版
 
-### 🧠 Logic & Data Flow
+---
 
-- Search books by title or author
-- Dynamic status update with local mock API (JSON Server)
-- Combined data from two external APIs
-- Manual normalization and key-matching logic for description data
+## 邏輯與資料流程
 
-## Tech Stack
+- 以書名或作者名稱搜尋書籍
+- 狀態變更後畫面與資料即時同步更新
+- 整合來自兩個 API 的資料來源
+- 自行撰寫邏輯合併描述資料（比對書名）
+
+---
+
+## 使用技術
 
 - HTML / CSS / JavaScript
 - Tailwind CSS / DaisyUI
-- Phosphor Icons (inline SVG)
-  - Icons are from Phosphor Icons, embedded via inline SVG for easier customization with Tailwind utility classes.DaisyUI's built-in icons were not used to better match the desired visual style and control.
+- Phosphor Icons（內嵌 SVG）
+  - 採用 Phosphor Icons 內嵌 SVG 引入，方便搭配 Tailwind 工具類別調整樣式  
+    （為了視覺風格一致性，未採用 DaisyUI 內建圖示）
 - Alpine.js
 - JSON Server
 - Git & GitHub
 
-## Getting Started
+---
 
-- Run `npm install` to install all packages.
-- Run `npm run all` to launch:
-  - Vite development server (default: port `5173`)
-  - JSON Server (default: port `3002`) - `/allBooksData` - `/toReadBooksData` - `/finishedBooksData` - `/favoriteBooksData`
-    > `npm run all` will launch both Vite and JSON Server concurrently.  
-    > Make sure you have `concurrently` installed (already included in `package.json`).
+## 開始步驟
 
-## Development Tools
+```bash
+npm install     # 安裝依賴套件
+npm run all     # 同時啟動前端與 JSON Server
+```
 
-- Vite for development server
+啟動後包含：
 
-## API Sources
+- Vite 開發伺服器（預設 port：5173）
+- JSON Server 假資料 API（預設 port：3002）
 
-- This project uses two public APIs:
-  - Book data (title, author, subject, cover): Open Library API (https://openlibrary.org/developers/api)
-  - Book description (text summary): Wikipedia REST API (https://www.mediawiki.org/wiki/API:REST_API)
+JSON Server 提供以下 API 路徑：
 
-> Data is normalized and combined manually due to differences in structure.
-> Descriptions are fetched by matching book titles to Wikipedia entries.
+- /allBooksData
+- /toReadBooksData
+- /finishedBooksData
+- /favoriteBooksData
 
-## About This Project
+> npm run all 透過 concurrently 同時啟動兩個服務，已包含在 package.json。
 
-This project was built as a practice to deepen understanding of:
+## API 資料來源
 
-- JavaScript logic structuring and modularization
-- State control using Alpine.js
-- API integration and data normalization
-- DOM manipulation and UI synchronization
+- 書籍資料（書名、作者、主題、封面）：Open Library API
+- 書籍描述資料（簡介文字）：Wikipedia REST API
 
-It is not meant to be production-ready, but focuses on learning key frontend skills.
+> 兩個 API 的資料格式不同，因此描述需額外比對書名並整合。
+
+## 專案說明
+
+此專案為練習性質，練習重點：
+
+- 強化 JavaScript 邏輯結構與模組化能力
+- 熟悉 Alpine.js 的資料綁定與事件控制
+- 練習外部 API 串接與資料整合
+- 操作 DOM 並實作資料狀態同步畫面
