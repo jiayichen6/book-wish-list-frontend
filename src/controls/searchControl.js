@@ -1,8 +1,7 @@
 const searchControl = () => {
   return {
-    searchInput: "",
     searchBooks() {
-      const keyword = this.searchInput.trim().toLowerCase();
+      const keyword = this.$store.booksData.searchInput.trim().toLowerCase();
       const sourceMap = {
         allBooks: this.$store.booksData.allBooks,
         toReadBooks: this.$store.booksData.toReadBooks,
@@ -12,7 +11,7 @@ const searchControl = () => {
       const source = sourceMap[this.$store.booksData.currentPage];
 
       if (keyword === "") {
-        this.searchInput = "";
+        this.$store.booksData.searchInput = "";
         this.$store.booksData.currentBooks = source;
         return;
       } else {

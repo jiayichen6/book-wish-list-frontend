@@ -98,16 +98,21 @@ const bookListControl = () => {
     },
 
     goAll() {
+      this.$store.booksData.searchInput = "";
       this.$store.booksData.currentBooks = this.$store.booksData.allBooks;
       this.$store.booksData.currentPage = "allBooks";
     },
 
     goToRead() {
+      console.log("here");
+
+      this.$store.booksData.searchInput = "";
       this.$store.booksData.currentBooks = this.$store.booksData.toReadBooks;
       this.$store.booksData.currentPage = "toReadBooks";
     },
 
     gofinished() {
+      this.$store.booksData.searchInput = "";
       this.$store.booksData.currentBooks = this.$store.booksData.finishedBooks;
       this.$store.booksData.currentPage = "finishedBooks";
     },

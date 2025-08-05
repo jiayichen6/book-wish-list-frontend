@@ -3,6 +3,7 @@ const uiStore = {
   currentPage: "allBooks",
   bookControl: {},
   selectedBook: null,
+  searchInput: "",
 };
 
 export { uiStore };
