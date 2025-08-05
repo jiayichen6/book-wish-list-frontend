@@ -109,7 +109,7 @@ const bookListControl = () => {
 
     gofinished() {
       this.$store.booksData.currentBooks = this.$store.booksData.finishedBooks;
-      this.$store.booksData.currentPage = "finishedBOoks";
+      this.$store.booksData.currentPage = "finishedBooks";
     },
 
     setToRead(book) {
