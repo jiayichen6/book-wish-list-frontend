@@ -8,7 +8,7 @@ const searchControl = () => {
         finishedBooks: this.$store.booksData.finishedBooks,
       };
 
-      const source = sourceMap[this.$store.booksData.currentPage];
+      const source = sourceMap[this.$store.booksData.currentBookList];
 
       if (keyword === "") {
         this.$store.booksData.searchInput = "";

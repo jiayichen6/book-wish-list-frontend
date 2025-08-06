@@ -1,6 +1,6 @@
 const uiStore = {
   currentBooks: [],
-  currentPage: "allBooks",
+  currentBookList: "allBooks",
   bookControl: {},
   selectedBook: null,
   searchInput: "",

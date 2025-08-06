@@ -100,21 +100,19 @@ const bookListControl = () => {
     goAll() {
       this.$store.booksData.searchInput = "";
       this.$store.booksData.currentBooks = this.$store.booksData.allBooks;
-      this.$store.booksData.currentPage = "allBooks";
+      this.$store.booksData.currentBookList = "allBooks";
     },
 
     goToRead() {
-      console.log("here");
-
       this.$store.booksData.searchInput = "";
       this.$store.booksData.currentBooks = this.$store.booksData.toReadBooks;
-      this.$store.booksData.currentPage = "toReadBooks";
+      this.$store.booksData.currentBookList = "toReadBooks";
     },
 
     gofinished() {
       this.$store.booksData.searchInput = "";
       this.$store.booksData.currentBooks = this.$store.booksData.finishedBooks;
-      this.$store.booksData.currentPage = "finishedBooks";
+      this.$store.booksData.currentBookList = "finishedBooks";
     },
 
     setToRead(book) {
