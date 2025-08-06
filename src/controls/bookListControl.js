@@ -29,7 +29,7 @@ const bookListControl = () => {
       finishedBooksData,
       favoriteBooksData,
     }) {
-      this.$store.booksData.rawBooks = rawData;
+      this.$store.booksApp.rawBooks = rawData;
 
       const getKeys = (list) => list.map((b) => b.key);
       const allBookskeys = getKeys(rawData.booksData.works);
@@ -37,23 +37,22 @@ const bookListControl = () => {
       const finishedBooksKeys = getKeys(finishedBooksData);
       const favoriteBooksKeys = getKeys(favoriteBooksData);
 
-      this.$store.booksData.allBooks = this.prepareBooksWithStatus(
+      this.$store.booksApp.allBooks = this.prepareBooksWithStatus(
         allBookskeys,
         toReadBooksKeys,
         finishedBooksKeys,
         favoriteBooksKeys
       );
 
-      this.$store.booksData.toReadBooks = this.$store.booksData.allBooks.filter(
+      this.$store.booksApp.toReadBooks = this.$store.booksApp.allBooks.filter(
         (b) => toReadBooksKeys.includes(b.key)
       );
 
-      this.$store.booksData.finishedBooks =
-        this.$store.booksData.allBooks.filter((b) =>
-          finishedBooksKeys.includes(b.key)
-        );
+      this.$store.booksApp.finishedBooks = this.$store.booksApp.allBooks.filter(
+        (b) => finishedBooksKeys.includes(b.key)
+      );
 
-      this.$store.booksData.currentBooks = this.$store.booksData.allBooks;
+      this.$store.booksApp.currentBooks = this.$store.booksApp.allBooks;
     },
 
     prepareBooksWithStatus(
@@ -78,8 +77,8 @@ const bookListControl = () => {
     },
 
     nomalizeBooks(bookKeys) {
-      const books = this.$store.booksData.rawBooks.booksData.works;
-      const booksDesc = this.$store.booksData.rawBooks.booksDescData;
+      const books = this.$store.booksApp.rawBooks.booksData.works;
+      const booksDesc = this.$store.booksApp.rawBooks.booksDescData;
 
       return bookKeys.map((key) => {
         const book = books.find((b) => b.key === key);
@@ -98,21 +97,21 @@ const bookListControl = () => {
     },
 
     goAll() {
-      this.$store.booksData.searchInput = "";
-      this.$store.booksData.currentBooks = this.$store.booksData.allBooks;
-      this.$store.booksData.currentBookList = "allBooks";
+      this.$store.booksApp.searchInput = "";
+      this.$store.booksApp.currentBooks = this.$store.booksApp.allBooks;
+      this.$store.booksApp.currentBookList = "allBooks";
     },
 
     goToRead() {
-      this.$store.booksData.searchInput = "";
-      this.$store.booksData.currentBooks = this.$store.booksData.toReadBooks;
-      this.$store.booksData.currentBookList = "toReadBooks";
+      this.$store.booksApp.searchInput = "";
+      this.$store.booksApp.currentBooks = this.$store.booksApp.toReadBooks;
+      this.$store.booksApp.currentBookList = "toReadBooks";
     },
 
     gofinished() {
-      this.$store.booksData.searchInput = "";
-      this.$store.booksData.currentBooks = this.$store.booksData.finishedBooks;
-      this.$store.booksData.currentBookList = "finishedBooks";
+      this.$store.booksApp.searchInput = "";
+      this.$store.booksApp.currentBooks = this.$store.booksApp.finishedBooks;
+      this.$store.booksApp.currentBookList = "finishedBooks";
     },
 
     setToRead(book) {
@@ -127,15 +126,15 @@ const bookListControl = () => {
 
     toggleFavorite(book) {
       book.isFavorite = !book.isFavorite;
-      this.$store.booksData.finishedBooks = this.sortBooks(
-        this.$store.booksData.finishedBooks,
+      this.$store.booksApp.finishedBooks = this.sortBooks(
+        this.$store.booksApp.finishedBooks,
         {
           isFinished: true,
         }
       );
 
       const status = book.isFavorite;
-      const rawBooks = this.$store.booksData.rawBooks.booksData.works;
+      const rawBooks = this.$store.booksApp.rawBooks.booksData.works;
       if (status) {
         try {
           bookApiControl.addBook(book.key, "favoriteBooks", rawBooks);
@@ -152,8 +151,8 @@ const bookListControl = () => {
     },
 
     manageReadStatus(book) {
-      const toReadBooks = this.$store.booksData.toReadBooks;
-      const finishedBooks = this.$store.booksData.finishedBooks;
+      const toReadBooks = this.$store.booksApp.toReadBooks;
+      const finishedBooks = this.$store.booksApp.finishedBooks;
 
       this.updateBookList(
         book,
@@ -171,7 +170,7 @@ const bookListControl = () => {
 
     async updateBookList(book, bookList, status, listName) {
       const index = this.findBook(book, bookList);
-      const rawBooks = this.$store.booksData.rawBooks.booksData.works;
+      const rawBooks = this.$store.booksApp.rawBooks.booksData.works;
 
       if (status) {
         // 加進去時先確認是否存在（避免重複）
