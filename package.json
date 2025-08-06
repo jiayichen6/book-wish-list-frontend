@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "alpinejs": "^3.14.9",
-    "axios": "^1.11.0"
+    "axios": "^1.11.0",
+    "toastify-js": "^1.12.0"
   }
 }
