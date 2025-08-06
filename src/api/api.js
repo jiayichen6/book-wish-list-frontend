@@ -1,42 +1,34 @@
 import axios from "axios";
 
-const bookApiControl = {
+const booksApiControl = {
   async getBooks() {
-    const rawData = (await axios.get("http://localhost:3002/allBooksData"))
-      .data;
-    const toReadBooksData = (
-      await axios.get("http://localhost:3002/toReadBooksData")
+    const allBooks = (await axios.get("http://127.0.0.1:5000/books/")).data;
+    const toReadBooksKeys = (
+      await axios.get("http://127.0.0.1:5000/books/my/toReadBooks")
     ).data;
-    const finishedBooksData = (
-      await axios.get("http://localhost:3002/finishedBooksData")
+    const finishedBooksKeys = (
+      await axios.get("http://127.0.0.1:5000/books/my/finishedBooks")
     ).data;
-    const favoriteBooksData = (
-      await axios.get("http://localhost:3002/favoriteBooksData")
+    const favoriteBooksKeys = (
+      await axios.get("http://127.0.0.1:5000/books/my/favoriteBooks")
     ).data;
 
-    return { rawData, toReadBooksData, finishedBooksData, favoriteBooksData };
+    return { allBooks, toReadBooksKeys, finishedBooksKeys, favoriteBooksKeys };
   },
 
-  async addBook(bookKey, listName, rawBooks) {
-    const api = `http://localhost:3002/${listName}Data`;
+  async addBook(bookKey, listName) {
+    const api = `http://127.0.0.1:5000/books/my/${listName}/${bookKey}`;
 
-    const targetBook = {
-      ...rawBooks.find((b) => b.key === bookKey),
-      id: bookKey,
-    };
-
-    const resp = await axios.post(api, targetBook);
-
+    const resp = await axios.post(api);
     return resp.data;
   },
 
   async removeBook(bookKey, listName) {
-    // 安全轉換 URL
-    const encodedKey = encodeURIComponent(bookKey);
-    const api = `http://localhost:3002/${listName}Data/${encodedKey}`;
+    const api = `http://127.0.0.1:5000/books/my/${listName}/${bookKey}`;
+
     const resp = await axios.delete(api);
     return resp.data;
   },
 };
 
-export { bookApiControl };
+export { booksApiControl };

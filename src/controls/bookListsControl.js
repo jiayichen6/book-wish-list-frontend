@@ -1,67 +1,70 @@
-import { bookApiControl } from "../api/api";
+import { booksApiControl } from "../api/api";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
 const bookListsControl = () => {
   return {
     async getAllBooks() {
-      let rawData = [];
-      let toReadBooksData = [];
-      let finishedBooksData = [];
-      let favoriteBooksData = [];
+      let allBooks = [];
+      let toReadBooksKeys = [];
+      let finishedBooksKeys = [];
+      let favoriteBooksKeys = [];
+
       try {
-        const resp = await bookApiControl.getBooks();
-        ({ rawData, toReadBooksData, finishedBooksData, favoriteBooksData } =
+        const resp = await booksApiControl.getBooks();
+
+        ({ allBooks, toReadBooksKeys, finishedBooksKeys, favoriteBooksKeys } =
           resp);
       } catch (err) {
-        console.log("取得全部書本失敗", err);
+        console.log(err);
+
+        this.toastify(err.response.data.error);
       }
 
       this.initialBooksStore({
-        rawData,
-        toReadBooksData,
-        finishedBooksData,
-        favoriteBooksData,
+        allBooks,
+        toReadBooksKeys,
+        finishedBooksKeys,
+        favoriteBooksKeys,
       });
     },
 
     initialBooksStore({
-      rawData,
-      toReadBooksData,
-      finishedBooksData,
-      favoriteBooksData,
+      allBooks,
+      toReadBooksKeys,
+      finishedBooksKeys,
+      favoriteBooksKeys,
     }) {
-      this.$store.booksApp.rawBooks = rawData;
-
-      const getKeys = (list) => list.map((b) => b.key);
-      const allBookskeys = getKeys(rawData.booksData.works);
-      const toReadBooksKeys = getKeys(toReadBooksData);
-      const finishedBooksKeys = getKeys(finishedBooksData);
-      const favoriteBooksKeys = getKeys(favoriteBooksData);
-
       this.$store.booksApp.allBooks = this.prepareBooksWithStatus(
-        allBookskeys,
+        allBooks,
         toReadBooksKeys,
         finishedBooksKeys,
         favoriteBooksKeys
       );
 
-      this.$store.booksApp.toReadBooks = this.$store.booksApp.allBooks.filter(
-        (b) => toReadBooksKeys.includes(b.key)
+      const toReadBooks = this.$store.booksApp.allBooks.filter(
+        (b) => b.readStatus === "toRead"
       );
+      this.$store.booksApp.toReadBooks = toReadBooks;
 
-      this.$store.booksApp.finishedBooks = this.$store.booksApp.allBooks.filter(
-        (b) => finishedBooksKeys.includes(b.key)
+      const finishedBooks = this.sortBooks(
+        this.$store.booksApp.allBooks.filter(
+          (b) => b.readStatus === "finished"
+        ),
+        { isFinished: true }
       );
+      this.$store.booksApp.finishedBooks = finishedBooks;
 
       this.$store.booksApp.currentBooks = this.$store.booksApp.allBooks;
     },
 
     prepareBooksWithStatus(
-      allBookskeys,
+      allBooks,
       toReadBooksKeys,
       finishedBooksKeys,
       favoriteBooksKeys
     ) {
-      const books = this.sortBooks(this.nomalizeBooks(allBookskeys));
+      const books = this.sortBooks(this.nomalizeBooks(allBooks));
 
       books.forEach((book) => {
         if (toReadBooksKeys.includes(book.key)) {
@@ -76,17 +79,16 @@ const bookListsControl = () => {
       return books;
     },
 
-    nomalizeBooks(bookKeys) {
-      const books = this.$store.booksApp.rawBooks.booksData.works;
-      const booksDesc = this.$store.booksApp.rawBooks.booksDescData;
+    nomalizeBooks(allBooks) {
+      const books = allBooks.allBooksData.booksData.works;
+      const booksDesc = allBooks.allBooksData.booksDescData;
 
-      return bookKeys.map((key) => {
-        const book = books.find((b) => b.key === key);
-        const desc = booksDesc.find((b) => b.key === key);
+      const nomalizedBooks = books.map((book) => {
+        const desc = booksDesc.find((b) => b.key === book.key);
         return {
-          key: key,
+          key: book.key,
           title: book.title,
-          author: book.authors.map((a) => a.name),
+          authors: book.authors.map((a) => a.name),
           subject: book.subject.slice(0, 2),
           description: desc.description,
           coverId: book.cover_id,
@@ -94,6 +96,7 @@ const bookListsControl = () => {
           isFavorite: false,
         };
       });
+      return nomalizedBooks;
     },
 
     goAll() {
@@ -134,16 +137,15 @@ const bookListsControl = () => {
       );
 
       const status = book.isFavorite;
-      const rawBooks = this.$store.booksApp.rawBooks.booksData.works;
       if (status) {
         try {
-          bookApiControl.addBook(book.key, "favoriteBooks", rawBooks);
+          booksApiControl.addBook(book.key, "favoriteBooks");
         } catch (err) {
           console.log("新增喜愛書本失敗", err);
         }
       } else {
         try {
-          bookApiControl.removeBook(book.key, "favoriteBooks", rawBooks);
+          booksApiControl.removeBook(book.key, "favoriteBooks");
         } catch (err) {
           console.log("新增喜愛書本失敗", err);
         }
@@ -170,25 +172,22 @@ const bookListsControl = () => {
 
     async updateBookList(book, bookList, status, listName) {
       const index = this.findBook(book, bookList);
-      const rawBooks = this.$store.booksApp.rawBooks.booksData.works;
 
       if (status) {
-        // 加進去時先確認是否存在（避免重複）
         if (index === -1) {
           bookList.push(book);
           bookList = this.sortBooks(bookList);
           try {
-            await bookApiControl.addBook(book.key, listName, rawBooks);
+            await booksApiControl.addBook(book.key, listName);
           } catch (err) {
             console.log("新增書本失敗", err);
           }
         }
       } else {
-        // 拿出來也建議判斷（避免 splice(-1, 1) 錯刪最後一筆）
         if (index !== -1) {
           bookList.splice(index, 1);
           try {
-            await bookApiControl.removeBook(book.key, listName);
+            await booksApiControl.removeBook(book.key, listName);
           } catch (err) {
             console.log("移除書本失敗", err);
           }
@@ -208,6 +207,19 @@ const bookListsControl = () => {
           return a.title.localeCompare(b.title);
         }
       });
+    },
+
+    toastify(message, color = "#96c93d") {
+      return Toastify({
+        text: message,
+        position: "center",
+        duration: 3000,
+        close: true,
+        gravity: top,
+        style: {
+          background: color,
+        },
+      }).showToast();
     },
   };
 };
