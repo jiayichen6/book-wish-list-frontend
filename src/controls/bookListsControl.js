@@ -1,6 +1,6 @@
 import { bookApiControl } from "../api/api";
 
-const bookListControl = () => {
+const bookListsControl = () => {
   return {
     async getAllBooks() {
       let rawData = [];
@@ -212,4 +212,4 @@ const bookListControl = () => {
   };
 };
 
-export { bookListControl };
+export { bookListsControl };

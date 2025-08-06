@@ -11,7 +11,7 @@ const authControl = () => {
       const token = localStorage.getItem("token");
       if (token) {
         this.setHeader(token);
-        this.goBookList();
+        this.goBookLists();
       }
     },
 
@@ -51,7 +51,7 @@ const authControl = () => {
           this.setHeader(token);
 
           this.clearInput();
-          this.goBookList();
+          this.goBookLists();
         } catch (err) {
           this.toastify(err.response.data.error, "#972929ff");
         }
@@ -75,8 +75,8 @@ const authControl = () => {
       this.$store.booksApp.currentPage = "logIn";
     },
 
-    goBookList() {
-      this.$store.booksApp.currentPage = "bookList";
+    goBookLists() {
+      this.$store.booksApp.currentPage = "bookLists";
     },
 
     get isAllowToRegister() {

@@ -190,7 +190,7 @@
       </div>
 
       <!-- books wish list -->
-      <div x-data x-show="$store.booksApp.currentPage == 'bookList'">
+      <div x-data x-show="$store.booksApp.currentPage == 'bookLists'">
         <div class="flex px-10 lg:px-40 items-center justify-between">
           <h1 class="text-4xl my-10 mb-5">My Books Wish List</h1>
 
@@ -235,7 +235,7 @@
 
         <!-- book lists -->
         <section
-          x-data="bookListControl"
+          x-data="bookListsControl"
           x-init="
           getAllBooks;
           $store.booksApp.bookControl = $data"
