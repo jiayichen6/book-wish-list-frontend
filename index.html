@@ -410,14 +410,14 @@
             @click.stop
             class="w-[70%] xl:w-[50%] card card-side bg-base-100 shadow-sm"
           >
-            <figure class="w-[1000px]">
+            <figure class="w-[40%]">
               <img
                 class="object-cover"
                 :src="`https://covers.openlibrary.org/b/id/${$store.booksData.selectedBook.coverId}-M.jpg`"
                 alt="Movie"
               />
             </figure>
-            <div class="card-body">
+            <div class="card-body w-[60%]">
               <div class="flex gap-3">
                 <template
                   x-for="subject in $store.booksData.selectedBook.subject"
