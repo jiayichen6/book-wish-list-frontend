@@ -1,5 +1,8 @@
 @import "tailwindcss";
-@plugin "daisyui";
 @plugin "daisyui" {
   themes: garden;
+}
+
+[x-cloak] {
+  display: none !important;
 }

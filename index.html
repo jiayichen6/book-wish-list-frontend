@@ -11,7 +11,11 @@
 
   <body>
     <main>
-      <div x-data="authControl()" x-init="$store.booksApp.authControl = $data">
+      <div
+        x-data="authControl()"
+        x-init="$store.booksApp.authControl = $data"
+        x-cloak
+      >
         <!-- register -->
         <form
           x-show="$store.booksApp.currentPage == 'register'"
