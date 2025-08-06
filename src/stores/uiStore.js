@@ -3,6 +3,7 @@ const uiStore = {
   currentBooks: [],
   currentBookList: "allBooks",
   bookControl: {},
+  authControl: {},
   selectedBook: null,
   searchInput: "",
 };
