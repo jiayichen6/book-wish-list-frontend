@@ -236,9 +236,8 @@
         <!-- book lists -->
         <section
           x-data="bookListsControl"
-          x-init="
-          getAllBooks;
-          $store.booksApp.bookControl = $data"
+          x-effect="$store.booksApp.currentPage == 'bookLists' && getAllBooks"
+          x-init="$store.booksApp.bookControl = $data"
           class="tabs tabs-lift p-10 lg:px-40"
         >
           <!-- 1 -->

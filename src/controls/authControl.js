@@ -2,6 +2,20 @@ import axios from "axios";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
+
+      Alpine.store("booksApp").currentPage = "logIn";
+    }
+
+    throw error;
+  }
+);
+
 const authControl = () => {
   return {
     email: "",
@@ -63,6 +77,7 @@ const authControl = () => {
       this.$store.booksApp.currentPage = "logIn";
 
       localStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
     },
 
     goRegister() {
