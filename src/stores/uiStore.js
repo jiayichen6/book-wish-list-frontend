@@ -1,5 +1,5 @@
 const uiStore = {
-  currentPage: "register",
+  currentPage: "logIn",
   currentBooks: [],
   currentBookList: "allBooks",
   bookControl: {},
