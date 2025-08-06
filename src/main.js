@@ -6,7 +6,7 @@ import { uiStore } from "./stores/uiStore";
 
 Alpine.data("bookListControl", bookListControl);
 Alpine.data("searchControl", searchControl);
-Alpine.store("booksData", { ...booksStore, ...uiStore });
+Alpine.store("booksApp", { ...booksStore, ...uiStore });
 window.Alpine = Alpine;
 
 Alpine.start();

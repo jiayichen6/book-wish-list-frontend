@@ -1,21 +1,21 @@
 const searchControl = () => {
   return {
     searchBooks() {
-      const keyword = this.$store.booksData.searchInput.trim().toLowerCase();
+      const keyword = this.$store.booksApp.searchInput.trim().toLowerCase();
       const sourceMap = {
-        allBooks: this.$store.booksData.allBooks,
-        toReadBooks: this.$store.booksData.toReadBooks,
-        finishedBooks: this.$store.booksData.finishedBooks,
+        allBooks: this.$store.booksApp.allBooks,
+        toReadBooks: this.$store.booksApp.toReadBooks,
+        finishedBooks: this.$store.booksApp.finishedBooks,
       };
 
-      const source = sourceMap[this.$store.booksData.currentBookList];
+      const source = sourceMap[this.$store.booksApp.currentBookList];
 
       if (keyword === "") {
-        this.$store.booksData.searchInput = "";
-        this.$store.booksData.currentBooks = source;
+        this.$store.booksApp.searchInput = "";
+        this.$store.booksApp.currentBooks = source;
         return;
       } else {
-        this.$store.booksData.currentBooks = source.filter((book) => {
+        this.$store.booksApp.currentBooks = source.filter((book) => {
           return (
             book.title.toLowerCase().includes(keyword) ||
             book.author.join(",").toLowerCase().includes(keyword)

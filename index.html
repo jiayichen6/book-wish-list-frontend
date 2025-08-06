@@ -34,7 +34,7 @@
             </g>
           </svg>
           <input
-            x-model="$store.booksData.searchInput"
+            x-model="$store.booksApp.searchInput"
             @input="searchBooks"
             type="search"
             class="grow"
@@ -48,7 +48,7 @@
         x-data="bookListControl"
         x-init="
         getAllBooks;
-        $store.booksData.bookControl = $data"
+        $store.booksApp.bookControl = $data"
         class="tabs tabs-lift p-10 lg:px-40"
       >
         <!-- 1 -->
@@ -72,10 +72,10 @@
         <div class="tab-content bg-base-100 border-base-300 p-6">
           <ul class="list bg-base-100 rounded-box shadow-md">
             <template
-              x-for="book in $store.booksData.currentBooks"
+              x-for="book in $store.booksApp.currentBooks"
               :key="book.key"
             >
-              <li @click="$store.booksData.selectedBook = book">
+              <li @click="$store.booksApp.selectedBook = book">
                 <div class="px-4 flex gap-3 mt-8">
                   <template x-for="subject in book.subject">
                     <span
@@ -198,10 +198,10 @@
         <div class="tab-content bg-base-100 border-base-300 p-6">
           <ul class="list bg-base-100 rounded-box shadow-md">
             <template
-              x-for="book in $store.booksData.currentBooks"
+              x-for="book in $store.booksApp.currentBooks"
               :key="book.key"
             >
-              <li @click="$store.booksData.selectedBook = book">
+              <li @click="$store.booksApp.selectedBook = book">
                 <div class="px-4 flex gap-3 mt-8">
                   <template x-for="subject in book.subject">
                     <span
@@ -292,10 +292,10 @@
         <div class="tab-content bg-base-100 border-base-300 p-6">
           <ul class="list bg-base-100 rounded-box shadow-md">
             <template
-              x-for="book in $store.booksData.currentBooks"
+              x-for="book in $store.booksApp.currentBooks"
               :key="book.key"
             >
-              <li @click="$store.booksData.selectedBook = book">
+              <li @click="$store.booksApp.selectedBook = book">
                 <div class="px-4 flex gap-3 mt-8">
                   <template x-for="subject in book.subject">
                     <span
@@ -401,9 +401,9 @@
       </section>
 
       <!-- book card -->
-      <template x-if="$store.booksData.selectedBook">
+      <template x-if="$store.booksApp.selectedBook">
         <div
-          @click="$store.booksData.selectedBook = null"
+          @click="$store.booksApp.selectedBook = null"
           class="fixed top-0 z-10 size-full flex justify-center items-center bg-black/50 cursor-pointer"
         >
           <div
@@ -413,14 +413,14 @@
             <figure class="w-[40%]">
               <img
                 class="object-cover"
-                :src="`https://covers.openlibrary.org/b/id/${$store.booksData.selectedBook.coverId}-M.jpg`"
+                :src="`https://covers.openlibrary.org/b/id/${$store.booksApp.selectedBook.coverId}-M.jpg`"
                 alt="Movie"
               />
             </figure>
             <div class="card-body w-[60%]">
               <div class="flex gap-3">
                 <template
-                  x-for="subject in $store.booksData.selectedBook.subject"
+                  x-for="subject in $store.booksApp.selectedBook.subject"
                 >
                   <span
                     x-text="`#${subject}`"
@@ -429,13 +429,11 @@
                 </template>
               </div>
               <h2
-                x-text="$store.booksData.selectedBook.title"
+                x-text="$store.booksApp.selectedBook.title"
                 class="card-title text-xl"
               ></h2>
               <div>
-                <template
-                  x-for="author in $store.booksData.selectedBook.author"
-                >
+                <template x-for="author in $store.booksApp.selectedBook.author">
                   <p
                     x-text="author"
                     class="text-xs uppercase font-semibold opacity-60"
@@ -444,7 +442,7 @@
               </div>
               <div class="divider m-0"></div>
               <p
-                x-text="$store.booksData.selectedBook.description"
+                x-text="$store.booksApp.selectedBook.description"
                 class="opacity-60 text-xs mt-2"
               ></p>
 
@@ -452,11 +450,11 @@
               <div class="flex gap-2 justify-end">
                 <!-- btn1 -->
                 <button
-                  @click="$store.booksData.bookControl.setToRead($store.booksData.selectedBook)"
+                  @click="$store.booksApp.bookControl.setToRead($store.booksApp.selectedBook)"
                   class="btn btn-square btn-ghost"
                 >
                   <template
-                    x-if="$store.booksData.selectedBook.readStatus !== 'toRead'"
+                    x-if="$store.booksApp.selectedBook.readStatus !== 'toRead'"
                   >
                     <svg
                       class="size-[1.3em]"
@@ -473,7 +471,7 @@
                   </template>
 
                   <template
-                    x-if="$store.booksData.selectedBook.readStatus === 'toRead'"
+                    x-if="$store.booksApp.selectedBook.readStatus === 'toRead'"
                   >
                     <svg
                       class="size-[1.3em]"
@@ -491,11 +489,11 @@
                 </button>
                 <!-- btn2 -->
                 <button
-                  @click="$store.booksData.bookControl.setFinished($store.booksData.selectedBook)"
+                  @click="$store.booksApp.bookControl.setFinished($store.booksApp.selectedBook)"
                   class="btn btn-square btn-ghost"
                 >
                   <template
-                    x-if="$store.booksData.selectedBook.readStatus !== 'finished'"
+                    x-if="$store.booksApp.selectedBook.readStatus !== 'finished'"
                   >
                     <svg
                       class="size-[1.3em]"
@@ -512,7 +510,7 @@
                   </template>
 
                   <template
-                    x-if="$store.booksData.selectedBook.readStatus === 'finished'"
+                    x-if="$store.booksApp.selectedBook.readStatus === 'finished'"
                   >
                     <svg
                       class="size-[1.3em]"
@@ -528,14 +526,14 @@
                 </button>
                 <!-- btn3 -->
                 <template
-                  x-if="$store.booksData.selectedBook.readStatus === 'finished'"
+                  x-if="$store.booksApp.selectedBook.readStatus === 'finished'"
                 >
                   <button
-                    @click="$store.booksData.bookControl.toggleFavorite($store.booksData.selectedBook)"
+                    @click="$store.booksApp.bookControl.toggleFavorite($store.booksApp.selectedBook)"
                     class="btn btn-square btn-ghost"
                   >
                     <template
-                      x-if="$store.booksData.selectedBook.isFavorite == false"
+                      x-if="$store.booksApp.selectedBook.isFavorite == false"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -552,7 +550,7 @@
                     </template>
 
                     <template
-                      x-if="$store.booksData.selectedBook.isFavorite == true"
+                      x-if="$store.booksApp.selectedBook.isFavorite == true"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -572,7 +570,7 @@
               </div>
               <!-- close btn -->
               <button
-                @click="$store.booksData.selectedBook = null"
+                @click="$store.booksApp.selectedBook = null"
                 class="absolute -right-8 top-1 cursor-pointer"
               >
                 <svg
