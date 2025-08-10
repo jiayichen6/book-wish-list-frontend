@@ -20,14 +20,14 @@ const booksApiControl = {
     const api = `http://127.0.0.1:5000/books/my/${listName}/${bookKey}`;
 
     const resp = await axios.post(api);
-    return resp.data;
+    return resp;
   },
 
   async removeBook(bookKey, listName) {
     const api = `http://127.0.0.1:5000/books/my/${listName}/${bookKey}`;
 
     const resp = await axios.delete(api);
-    return resp.data;
+    return resp;
   },
 };
 

@@ -296,9 +296,10 @@
                     <!-- btn1 -->
                     <button
                       @click.stop="setToRead(book)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="book.isPending"
                     >
-                      <template x-if="book.readStatus !== 'toRead'">
+                      <template x-if="book.readState !== 'toRead'">
                         <svg
                           class="size-[1.3em]"
                           xmlns="http://www.w3.org/2000/svg"
@@ -313,7 +314,7 @@
                         </svg>
                       </template>
 
-                      <template x-if="book.readStatus === 'toRead'">
+                      <template x-if="book.readState === 'toRead'">
                         <svg
                           class="size-[1.3em]"
                           xmlns="http://www.w3.org/2000/svg"
@@ -331,9 +332,10 @@
                     <!-- btn2 -->
                     <button
                       @click.stop="setFinished(book)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="book.isPending"
                     >
-                      <template x-if="book.readStatus !== 'finished'">
+                      <template x-if="book.readState !== 'finished'">
                         <svg
                           class="size-[1.3em]"
                           xmlns="http://www.w3.org/2000/svg"
@@ -348,7 +350,7 @@
                         </svg>
                       </template>
 
-                      <template x-if="book.readStatus === 'finished'">
+                      <template x-if="book.readState === 'finished'">
                         <svg
                           class="size-[1.3em]"
                           xmlns="http://www.w3.org/2000/svg"
@@ -422,7 +424,8 @@
                     <!-- btn1 -->
                     <button
                       @click="setToRead(book)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="book.isPending"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -440,7 +443,8 @@
                     <!-- btn2 -->
                     <button
                       @click="setFinished(book)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="book.isPending"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -516,7 +520,8 @@
                     <!-- btn1 -->
                     <button
                       @click="setToRead(book)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="book.isPending"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -534,7 +539,8 @@
                     <!-- btn2 -->
                     <button
                       @click="setFinished(book)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="book.isPending"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -550,7 +556,8 @@
                     <!-- btn3 -->
                     <button
                       @click.stop="toggleFavorite(book)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="book.isPending"
                     >
                       <template x-if="book.isFavorite == false">
                         <svg
@@ -642,10 +649,11 @@
                   <!-- btn1 -->
                   <button
                     @click="$store.booksApp.bookControl.setToRead($store.booksApp.selectedBook)"
-                    class="btn btn-square btn-ghost"
+                    class="btn btn-square btn-ghost disabled:opacity-30"
+                    :disabled="$store.booksApp.selectedBook.isPending"
                   >
                     <template
-                      x-if="$store.booksApp.selectedBook.readStatus !== 'toRead'"
+                      x-if="$store.booksApp.selectedBook.readState !== 'toRead'"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -662,7 +670,7 @@
                     </template>
 
                     <template
-                      x-if="$store.booksApp.selectedBook.readStatus === 'toRead'"
+                      x-if="$store.booksApp.selectedBook.readState === 'toRead'"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -681,10 +689,11 @@
                   <!-- btn2 -->
                   <button
                     @click="$store.booksApp.bookControl.setFinished($store.booksApp.selectedBook)"
-                    class="btn btn-square btn-ghost"
+                    class="btn btn-square btn-ghost disabled:opacity-30"
+                    :disabled="$store.booksApp.selectedBook.isPending"
                   >
                     <template
-                      x-if="$store.booksApp.selectedBook.readStatus !== 'finished'"
+                      x-if="$store.booksApp.selectedBook.readState !== 'finished'"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -701,7 +710,7 @@
                     </template>
 
                     <template
-                      x-if="$store.booksApp.selectedBook.readStatus === 'finished'"
+                      x-if="$store.booksApp.selectedBook.readState === 'finished'"
                     >
                       <svg
                         class="size-[1.3em]"
@@ -717,11 +726,12 @@
                   </button>
                   <!-- btn3 -->
                   <template
-                    x-if="$store.booksApp.selectedBook.readStatus === 'finished'"
+                    x-if="$store.booksApp.selectedBook.readState === 'finished'"
                   >
                     <button
                       @click="$store.booksApp.bookControl.toggleFavorite($store.booksApp.selectedBook)"
-                      class="btn btn-square btn-ghost"
+                      class="btn btn-square btn-ghost disabled:opacity-30"
+                      :disabled="$store.booksApp.selectedBook.isPending"
                     >
                       <template
                         x-if="$store.booksApp.selectedBook.isFavorite == false"
