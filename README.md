@@ -5,7 +5,10 @@
 # Books Wish List
 
 一個使用 HTML、CSS、JavaScript 與 Alpine.js 打造的簡潔互動式書單管理工具。  
-使用者可以瀏覽書籍清單、切換閱讀狀態，並標記收藏書籍。
+前端改為 串接 Flask 後端 API（JWT 驗證）：登入後可讀寫個人清單，支援想讀/已讀互斥與收藏。
+
+**v1.0.0**：使用 JSON Server 模擬假資料  
+**v2.0.0**：串接 Flask 後端 API（JWT 驗證）
 
 ---
 
@@ -16,16 +19,19 @@
 - 分頁切換：全部書籍 / 想讀清單 / 已讀清單
 - 標記收藏功能（Favorite）
 - 使用 icon 切換閱讀狀態
+- 透過書名 / 作者查詢書籍
 - 響應式排版
 
 ---
 
-## 邏輯與資料流程
+## 邏輯與資料流程（v2.0.0）
 
-- 以書名或作者名稱搜尋書籍
-- 狀態變更後畫面與資料即時同步更新
-- 整合來自兩個 API 的資料來源
-- 自行撰寫邏輯合併描述資料（比對書名）
+- 以首頁載入會檢查 localStorage 是否有 token → 呼叫 /users/check 驗證
+  - 合法 → 進入書單頁
+  - 不合法 / 過期 → 導回登入
+- Axios 攔截 401：使用中途 token 過期會自動登出並跳回登入
+- 書單切換採 樂觀 UI + 回滾（isPending 防重複點擊）
+- 想讀/已讀為 互斥：前端只送目標清單的一個請求（POST 或 DELETE），後端保證互斥
 
 ---
 
@@ -37,12 +43,13 @@
   - 採用 Phosphor Icons 內嵌 SVG 引入，方便搭配 Tailwind 工具類別調整樣式  
     （為了視覺風格一致性，未採用 DaisyUI 內建圖示）
 - Alpine.js
-- JSON Server
-- Git & GitHub
+- Git & GitHub（v1.0.0 JSON Server 版 → v2.0.0 Flask 版）
 
 ---
 
 ## 開始步驟
+
+### v1.0.0
 
 ```bash
 npm install     # 安裝依賴套件
@@ -61,7 +68,23 @@ JSON Server 提供以下 API 路徑：
 - /finishedBooksData
 - /favoriteBooksData
 
-> npm run all 透過 concurrently 同時啟動兩個服務，已包含在 package.json。
+### v2.0.0
+
+#### 前端啟動
+
+```bash
+npm install     # 安裝依賴套件
+npm run dev     # 啟動 Vite（預設 port：5173）
+```
+
+> 此版本前端直接串接 Flask API，不再使用 JSON Server。
+
+#### 後端啟動
+
+- 後端 repo：https://github.com/jiayichen6/book-wish-list-backend
+- 啟動步驟請見後端 README：
+
+---
 
 ## API 資料來源
 
@@ -69,6 +92,8 @@ JSON Server 提供以下 API 路徑：
 - 書籍描述資料（簡介文字）：Wikipedia REST API
 
 > 兩個 API 的資料格式不同，因此描述需額外比對書名並整合。
+
+---
 
 ## 專案說明
 
