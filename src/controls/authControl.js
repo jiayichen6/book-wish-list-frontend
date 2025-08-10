@@ -1,6 +1,7 @@
 import axios from "axios";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
+import { booksApiControl } from "../api/api";
 
 axios.interceptors.response.use(
   (response) => response,
@@ -22,10 +23,22 @@ const authControl = () => {
     password: "",
 
     init() {
+      this.checkToken();
+    },
+
+    async checkToken() {
       const token = localStorage.getItem("token");
-      if (token) {
+      if (!token) return;
+
+      try {
         this.setHeader(token);
+        const resp = await booksApiControl.getMe();
+
+        this.toastify(resp.data.message);
         this.goBookLists();
+      } catch (err) {
+        const message = err?.response?.data?.error ?? "發生錯誤";
+        this.toastify(message, "#972929ff");
       }
     },
 
@@ -45,7 +58,8 @@ const authControl = () => {
           this.clearInput();
           this.goLogin();
         } catch (err) {
-          this.toastify(err.response.data.error, "#972929ff");
+          const message = err?.response?.data?.error ?? "發生錯誤";
+          this.toastify(message, "#972929ff");
         }
       }
     },
@@ -67,7 +81,8 @@ const authControl = () => {
           this.clearInput();
           this.goBookLists();
         } catch (err) {
-          this.toastify(err.response.data.error, "#972929ff");
+          const message = err?.response?.data?.error ?? "發生錯誤";
+          this.toastify(message, "#972929ff");
         }
       }
     },
@@ -113,7 +128,7 @@ const authControl = () => {
         position: "center",
         duration: 3000,
         close: true,
-        gravity: top,
+        gravity: "top",
         style: {
           background: color,
         },

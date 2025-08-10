@@ -1,6 +1,13 @@
 import axios from "axios";
 
 const booksApiControl = {
+  async getMe() {
+    const api = `http://127.0.0.1:5000/users/check`;
+
+    const resp = await axios.post(api);
+    return resp;
+  },
+
   async getBooks() {
     const allBooks = (await axios.get("http://127.0.0.1:5000/books/")).data;
     const toReadBooksKeys = (
