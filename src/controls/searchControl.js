@@ -18,7 +18,7 @@ const searchControl = () => {
         this.$store.booksApp.currentBooks = source.filter((book) => {
           return (
             book.title.toLowerCase().includes(keyword) ||
-            book.author.join(",").toLowerCase().includes(keyword)
+            book.authors.join(",").toLowerCase().includes(keyword)
           );
         });
       }
