@@ -2,6 +2,7 @@ import axios from "axios";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { booksApiControl } from "../api/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
 axios.interceptors.response.use(
   (response) => response,
@@ -48,7 +49,7 @@ const authControl = () => {
 
     async register() {
       if (this.isAllowToRegister) {
-        const api = "http://127.0.0.1:5000/users/register";
+        const api = `${API_URL}/users/register`;
         const newUser = { account: this.email, password: this.password };
 
         try {
@@ -66,7 +67,7 @@ const authControl = () => {
 
     async logIn() {
       if (this.isAllowToLogIn) {
-        const api = "http://127.0.0.1:5000/users/login";
+        const api = `${API_URL}/users/login`;
         const user = {
           account: this.email,
           password: this.password,
