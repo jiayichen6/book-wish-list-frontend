@@ -6,3 +6,14 @@
 [x-cloak] {
   display: none !important;
 }
+
+.toastify {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+  position: relative;
+}
+.toast-close {
+  position: static !important;
+  margin-left: 8px;
+}

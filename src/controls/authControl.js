@@ -94,6 +94,7 @@ const authControl = () => {
 
       localStorage.removeItem("token");
       delete axios.defaults.headers.common["Authorization"];
+      this.toastify("登出成功");
     },
 
     goRegister() {
