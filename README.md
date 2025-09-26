@@ -1,8 +1,7 @@
 ![書單管理介面預覽](./preview.png)
+[專案網址](https://book-wish-list-frontend.vercel.app)
 
-# 書單管理小工具
-
-# Books Wish List
+# 書單管理小工具 Books Wish List
 
 一個使用 HTML、CSS、JavaScript 與 Alpine.js 打造的簡潔互動式書單管理工具。  
 前端改為 串接 Flask 後端 API（JWT 驗證）：登入後可讀寫個人清單，支援想讀/已讀互斥與收藏。
